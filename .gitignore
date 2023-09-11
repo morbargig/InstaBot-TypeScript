@@ -1,0 +1,14 @@
+# Ignore Node.js modules
+
+node_modules/
+
+# Ignore project-specific environment files
+
+.env
+
+# Ignore built files and directories
+
+dist/
+build/
+
+environment.ts

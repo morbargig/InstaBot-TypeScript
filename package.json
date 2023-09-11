@@ -1,0 +1,35 @@
+{
+  "name": "instafollow",
+  "version": "1.0.0",
+  "description": "instafollow bot for instagram promotions",
+  "main": "server.js",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node --experimental-vm-modules --es-module-specifier-resolution=node dist/server.js",
+    "watch": "nodemon --inspect --watch './**/*.{ts}' --exec \"node --es-module-specifier-resolution=node --loader ts-node/esm\" server.ts",
+    "dev": "tsc-watch --onSuccess \"npm run watch\"",
+    "deploy:dev": "git checkout dev && git pull origin dev && npm install && pm2 reload api",
+    "deploy:prod": "git branch -D master-rollback && git branch master-rollback && git pull origin master && npm install && pm2 reload api",
+    "clean": "rm -rf dist node_modules package-lock.json pnpm-lock.yaml",
+    "clean:npm": "npm cache clean --force"
+  },
+  "keywords": [],
+  "author": "mor bargig",
+  "license": "ISC",
+  "dependencies": {
+    "instagram-private-api": "^1.45.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "nodemon": "^2.0.20",
+    "prettier": "2.0.4",
+    "ts-node": "^10.9.1",
+    "tsc-watch": "^5.0.3",
+    "tslint": "^6.1.3",
+    "typescript": "^4.8.4"
+  }
+}

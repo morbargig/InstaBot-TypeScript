@@ -1,0 +1,32 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {
+        "no-console": false,
+        "variable-name": [
+            false,
+            "allow-leading-underscore"
+        ],
+        "one-variable-per-declaration": [
+            false,
+            "ignore-for-loop"
+        ]
+    },
+    "rules": {
+        "trailing-comma": [
+            false
+        ],
+        "variable-name": [
+            false,
+            "allow-leading-underscore"
+        ],
+        "no-console": false,
+        "one-variable-per-declaration": [
+            false,
+            "ignore-for-loop"
+        ]
+    },
+    "rulesDirectory": []
+}
