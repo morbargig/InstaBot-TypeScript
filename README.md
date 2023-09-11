@@ -5,7 +5,6 @@ InstaBot is an Instagram bot designed for promotions and various automated tasks
 ## Getting Started
 
 1. Clone the repository:
-
    ```shell
    git clone https://github.com/your-username/instabot.git
    cd instabot
@@ -32,13 +31,6 @@ Promote your content, products, or services by interacting with a targeted audie
 Customizable behavior to suit your specific needs and goals.
 Customization
 You can customize InstaBot's behavior by modifying the source code to better suit your requirements.
-
 License
 This project is licensed under the MIT License.
-
 Feel free to contribute or report issues. Happy Instagram botting!
-
-csharp
-Copy code
-
-You can copy and paste this string into your README.md file. Just replace `your-username` with your actual GitHub username and add any additional details specific to your project as needed.
