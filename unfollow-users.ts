@@ -4,18 +4,24 @@
   Thanks to the developers for this great package.
  */
 import { Feed, IgApiClient } from "instagram-private-api";
-import { environment } from "./environment";
+import { getUser } from "./helpers/get-user";
 
 export const unfollowUsers = (username?: string) => {
   const ig = new IgApiClient();
-
-  ig.state.generateDevice(environment.IG_USERNAME);
+  const user = getUser("miryam_bargig");
+  ig.state.generateDevice(user?.username);
 
   (async () => {
-    await ig.account.login(environment.IG_USERNAME, environment.IG_PASSWORD);
+    await ig.account.login(user?.username, user?.password);
     const id = username
       ? await ig.user.getIdByUsername(username)
       : ig.state.cookieUserId;
+    console.log(`leggin user ${ig.state.cookieUsername}`);
+    console.log(
+      `Target user to get users that don't follow back ${
+        username ?? ig.state.cookieUsername
+      }`
+    );
     const followersFeed = ig.feed.accountFollowers(id);
     const followingFeed = ig.feed.accountFollowing(id);
 
@@ -33,8 +39,15 @@ export const unfollowUsers = (username?: string) => {
     const notFollowingYou = following.filter(
       ({ username }) => !followersUsername.has(username)
     );
+    // notFollowingYou
+    console.log(`${notFollowingYou.length} users are not following you back`);
 
     console.log(notFollowingYou.map((i) => i?.username));
+
+    console.log(
+      "links to unfollow users\n",
+      notFollowingYou.map((i) => `instagram.com/${i?.username}`)
+    );
     // Looping through and unfollowing each user
     return;
     for (const user of notFollowingYou) {
@@ -44,8 +57,10 @@ export const unfollowUsers = (username?: string) => {
           Time, is the delay which is between 1 second and 7 seconds.
           Creating a promise to stop the loop to avoid api spam
        */
-      const time = Math.round(Math.random() * 6000) + 1000;
+      const time = Math.round(Math.random() * 60000) + 1000;
+      console.log(`Waiting ${time}ms`);
       await new Promise((resolve) => setTimeout(resolve, time));
+      console.log("Finished waiting");
     }
   })();
 

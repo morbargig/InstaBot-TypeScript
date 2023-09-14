@@ -92,7 +92,5 @@ async function fetchUsersByFeed(
   // } catch (error) {
   //   console.error("An error occurred:", error);
   // }
-  unfollowUsers(
-    // environment.TEST_USER
-    );
+  unfollowUsers(environment.testUser);
 })();
