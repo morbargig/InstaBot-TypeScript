@@ -5,21 +5,43 @@
  */
 import { Feed, IgApiClient } from "instagram-private-api";
 import { getUser } from "./helpers/get-user";
+import { environment } from "./environment";
 
 export const unfollowUsers = (username?: string) => {
   const ig = new IgApiClient();
   const user = getUser("miryam_bargig");
   ig.state.generateDevice(user?.username);
+  if (environment.proxy) {
+    ig.state.proxyUrl = environment.proxy;
+  }
 
   (async () => {
-    await ig.account.login(user?.username, user?.password);
-    const id = username
+    let loginUserName: string = null as any;
+    try {
+      await ig.simulate.preLoginFlow();
+      const loggedInUser = await ig.account.login(
+        user?.username,
+        user?.password
+      );
+      loginUserName = loggedInUser.username.toString();
+      // process.nextTick(async () => {
+      //   try {
+      //     await ig.simulate.postLoginFlow();
+      //   } catch (error) {
+      //     console.error("An error occurred during postLoginFlow:", error);
+      //   }
+      // });
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+    const id = (username
       ? await ig.user.getIdByUsername(username)
-      : ig.state.cookieUserId;
-    console.log(`leggin user ${ig.state.cookieUsername}`);
+      : ig.state.cookieUserId
+    )?.toString();
+    console.log(`leggin user ${loginUserName}`);
     console.log(
       `Target user to get users that don't follow back ${
-        username ?? ig.state.cookieUsername
+        username ?? loginUserName
       }`
     );
     const followersFeed = ig.feed.accountFollowers(id);
@@ -74,6 +96,11 @@ export const unfollowUsers = (username?: string) => {
     let items: T[] = [];
     do {
       items = items.concat(await feed.items());
+      console.log(`Got ${items.length} items`);
+      const time = Math.round(Math.random() * 60000) + 1000;
+      console.log(`Waiting ${time}ms`);
+      await new Promise((resolve) => setTimeout(resolve, time));
+      console.log("Finished waiting");
     } while (feed.isMoreAvailable());
     return items;
   }
