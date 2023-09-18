@@ -12,3 +12,4 @@ dist/
 build/
 
 environment.ts
+# data/

@@ -6,6 +6,7 @@ import {
 } from "instagram-private-api";
 import { promisify } from "util"; // Import the promisify function
 import { unfollowUsers } from "./unfollow-users";
+import { check } from "./check";
 
 // Use promisify to create a setTimeout function that returns a Promise
 const wait = promisify(setTimeout);
@@ -92,7 +93,8 @@ async function fetchUsersByFeed(
   // } catch (error) {
   //   console.error("An error occurred:", error);
   // }
-  unfollowUsers(
-    environment.testUser
-    );
+  // unfollowUsers(
+  //   environment.testUser
+  //   );
+  check(environment.testUser);
 })();
